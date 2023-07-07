@@ -8,7 +8,7 @@ setup(
     description='DemoRe',
     long_description=open('README.md').read(),
     install_requires=[
-        'numpy'
+        'numpy',
         'torch',
         'transformers',
         'flair',
