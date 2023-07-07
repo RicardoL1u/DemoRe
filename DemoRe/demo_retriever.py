@@ -3,7 +3,7 @@ import faiss
 import numpy as np
 import logging
 logging.basicConfig(
-        format="[demo_retriever:%(filename)s:L%(lineno)d] %(levelname)-6s %(message)s"
+    format="[demo_retriever:%(filename)s:L%(lineno)d] %(levelname)-6s %(message)s"
 )
 logging.getLogger().setLevel(logging.INFO)
 class DemoRetriever(object):
