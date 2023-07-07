@@ -1,6 +1,6 @@
 from transformers import AutoModel, AutoTokenizer
 import torch
-from DemoRe.utilities.embs_utils import mean_pooling
+from .utilities.embs_utils import mean_pooling
 import logging
 logging.basicConfig(
     format="[demo_retriever:%(filename)s:L%(lineno)d] %(levelname)-6s %(message)s"
