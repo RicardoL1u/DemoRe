@@ -40,7 +40,7 @@ class EmbeddingBuilder():
         get_mean_pooling_embedding
         mean_pooling is the mean of all word embeddings,
         """
-        encoded_input = self.tokenizer(text, return_tensors='pt')
+        encoded_input = self.tokenizer(text, return_tensors='pt', padding=True, truncation=True, max_length=512)
         with torch.no_grad():
             model_output = self.model(**encoded_input)
         return mean_pooling(model_output, encoded_input['attention_mask'])
