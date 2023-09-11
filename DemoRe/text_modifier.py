@@ -20,6 +20,14 @@ class EntityAnonymizer():
             anonymized_text = anonymized_text.replace(entity.text,'['+entity.tag+'_'+str(entity_tag_cnt[entity.tag])+']')
             entity_tag_cnt[entity.tag] += 1
         return anonymized_text
+
+    def get_entity_list(self, text):
+        sentence = Sentence(text)
+        self.model.predict(sentence)
+        entity_list = []
+        for entity in sentence.get_spans('ner'):
+            entity_list.append(entity.text)
+        return entity_list
     
 if __name__ == '__main__':
     anonymizer = EntityAnonymizer('/data/lyt/models/flair/ner-english-ontonotes-large/pytorch_model.bin')
