@@ -38,3 +38,16 @@ class DemoRetriever(object):
         retrieved_demos = [self.demos[i] for i in I[0]]
         
         return retrieved_demos
+    
+    def retrieve_with_filtering(self,target_type_set:set,universal_map:dict,query_emb:np.array,topk:int=5)->list:
+        # retrieve demos more than topk*100
+        retrieved_demos = self.retrieve(query_emb,topk*100)
+        filter_result = []
+        for demo in retrieved_demos:
+            # get entity types
+            entities_set = set([universal_map[entity['type']] for entity in demo['entities']])
+            # if entities_set is a subset of target_type_set
+            if entities_set.issubset(target_type_set):
+                filter_result.append(demo)
+        
+        return filter_result[:topk]
