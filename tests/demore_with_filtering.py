@@ -3,8 +3,15 @@ from DemoRe.demo_retriever import DemoRetriever
 import numpy as np
 import logging
 # load demos
-demos = json.load(open('../ALL_DATASETS_NEW/EE/ACE05/train.json','r'))
-demo_embs = np.load(open('../ALL_DATASETS_NEW/EE/ACE05/train_question_embs.npy','rb'))
+demos = json.load(open('../ALL_DATASETS_NEW/NER/ACE 2005/train.json','r'))
+demo_embs = np.load(open('../ALL_DATASETS_NEW/NER/ACE 2005/train_sentence_embs.npy','rb'))
+demos.extend(json.load(open('../ALL_DATASETS_NEW/NER/ACE 2004/train.json','r')))
+demo_embs = np.concatenate([demo_embs,np.load(open('../ALL_DATASETS_NEW/NER/ACE 2004/train_sentence_embs.npy','rb'))],axis=0)
+demos.extend(json.load(open('../ALL_DATASETS_NEW/NER/CoNLL 2003/train.json','r')))
+demo_embs = np.concatenate([demo_embs,np.load(open('../ALL_DATASETS_NEW/NER/CoNLL 2003/train_sentence_embs.npy','rb'))],axis=0)
+
+print('The shape of demo_embs is: ',demo_embs.shape)
+print('The length of demos is: ',len(demos))
 
 demo_retriever = DemoRetriever(demo_embs,demos,device='cuda:2')
 
@@ -37,7 +44,10 @@ UNIVERSAL_MAP = {
 }
 
 # retrieve with target dataset is ACE05
-retrieved_demos = demo_retriever.retrieve_with_filtering(ACE05_ENTITIES,UNIVERSAL_MAP,query_emb,topk=1000)
-
+retrieved_demos = demo_retriever.retrieve_with_filtering(ACE05_ENTITIES,UNIVERSAL_MAP,query_emb,topk=5)
+print('Retrieved demos:')
+for demo in retrieved_demos:
+    print(demo['sentence'])
+    print('Entities: ',[entity['type'] for entity in demo['entities']])
 
 
